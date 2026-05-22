@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { validateInquiry, type InquiryPayload } from "@/lib/validation";
 
+export const runtime = "edge";
+
 export async function POST(request: Request) {
   const body = (await request.json()) as InquiryPayload;
   const errors = validateInquiry(body);
