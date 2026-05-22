@@ -1,12 +1,8 @@
 import { notFound } from "next/navigation";
 import { SiteShell } from "@/components/site-shell";
-import { isLocale, locales, type Locale } from "@/lib/i18n";
+import { isLocale, type Locale } from "@/lib/i18n";
 
 export const runtime = "edge";
-
-export function generateStaticParams() {
-  return locales.map((locale) => ({ locale }));
-}
 
 export default async function LocaleLayout({
   children,
