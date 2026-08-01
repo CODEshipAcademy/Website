@@ -1,17 +1,38 @@
+"use client";
+
 import Script from "next/script";
+import { useEffect, useState } from "react";
+import { CONSENT_EVENT, hasAnalyticsConsent } from "@/lib/consent";
 
 /**
- * Loads Meta Pixel and Google Analytics 4 only when their IDs are configured
- * via env vars. The Pixel base code is required for the `fbq("track","Purchase")`
- * call on /register/success to fire — without it that call is a no-op.
+ * Loads Meta Pixel and Google Analytics 4 only when BOTH are true:
+ *   1. the ID is configured via env var, and
+ *   2. the visitor has accepted analytics cookies (Law 25 / PIPEDA / CASL).
  *
- * Set in the deployment environment (both are optional):
+ * Scripts are injected the moment consent is granted — no page reload needed —
+ * because we listen for the in-tab consent event and cross-tab storage changes.
+ *
+ * Set in the deployment environment (both optional):
  *   NEXT_PUBLIC_FB_PIXEL_ID=xxxxxxxxxxxxxxx
  *   NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
  */
 export function Analytics() {
   const pixelId = process.env.NEXT_PUBLIC_FB_PIXEL_ID;
   const gaId = process.env.NEXT_PUBLIC_GA_ID;
+  const [allowed, setAllowed] = useState(false);
+
+  useEffect(() => {
+    const update = () => setAllowed(hasAnalyticsConsent());
+    update();
+    window.addEventListener(CONSENT_EVENT, update);
+    window.addEventListener("storage", update);
+    return () => {
+      window.removeEventListener(CONSENT_EVENT, update);
+      window.removeEventListener("storage", update);
+    };
+  }, []);
+
+  if (!allowed) return null;
 
   return (
     <>
