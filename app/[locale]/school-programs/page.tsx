@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
 import { InquiryForm } from "@/components/inquiry-form";
-import { metaByPage } from "@/lib/content";
+import { pageMetadata } from "@/lib/content";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
   const { locale } = await params;
-  return metaByPage[locale].schools;
+  return pageMetadata(locale, "schools", "/school-programs");
 }
 
 export default async function SchoolProgramsPage({ params }: { params: Promise<{ locale: Locale }> }) {
