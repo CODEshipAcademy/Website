@@ -1,46 +1,77 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
-import { metaByPage } from "@/lib/content";
+import { pageMetadata } from "@/lib/content";
 import { EnrollButton } from "@/components/EnrollButton";
-import type { ProgramLevel } from "@/lib/payment-links";
+import {
+  PROGRAM_LINKS,
+  PROGRAM_ORDER,
+  programName,
+  ageLabel,
+} from "@/lib/payment-links";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
   const { locale } = await params;
-  return metaByPage[locale].programs;
+  return pageMetadata(locale, "programs", "/programs");
 }
 
 export default async function ProgramsPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const fr = locale === "fr";
-  const programs = fr
-    ? [
-        { level: "explorers", name: "Explorateurs", ages: "6-7", tech: "Scratch, litteratie numerique, collaboration", projects: "Histoires interactives et mini-jeux" },
-        { level: "builders", name: "Batisseurs", ages: "8-9", tech: "HTML, CSS, resolution de problemes, travail d'equipe", projects: "Sites web et defis de classe" },
-        { level: "developers", name: "Developpeurs", ages: "10-12", tech: "JavaScript, Python, bases de l'IA", projects: "Applications, robots logiciels, narration de donnees" },
-        { level: "engineers", name: "Ingenieurs", ages: "13-16", tech: "JS/Python avance, dev app, conception produit", projects: "Solutions d'impact communautaire" }
-      ]
-    : [
-        { level: "explorers", name: "Explorers", ages: "6-7", tech: "Scratch, digital literacy, collaboration", projects: "Interactive stories and simple games" },
-        { level: "builders", name: "Builders", ages: "8-9", tech: "HTML, CSS, problem-solving, teamwork", projects: "Web pages and classroom challenge sites" },
-        { level: "developers", name: "Developers", ages: "10-12", tech: "JavaScript, Python, AI learning foundations", projects: "Apps, bots, and data storytelling" },
-        { level: "engineers", name: "Engineers", ages: "13-16", tech: "Advanced JS/Python, app development, product design", projects: "Community impact solutions" }
-      ];
+
+  const courseSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: PROGRAM_ORDER.map((level, i) => {
+      const c = PROGRAM_LINKS[level];
+      return {
+        "@type": "ListItem",
+        position: i + 1,
+        item: {
+          "@type": "Course",
+          name: `${programName(level, fr)} — ${fr ? "Cours de codage pour enfants" : "Kids Coding Course"}`,
+          description: fr ? c.techFr : c.techEn,
+          provider: {
+            "@type": "EducationalOrganization",
+            name: "CODEship Academy",
+            sameAs: "https://codeshipacademy.com",
+          },
+          offers: {
+            "@type": "Offer",
+            price: c.priceCad,
+            priceCurrency: "CAD",
+            category: fr ? "Frais de scolarite par semestre" : "Tuition per semester",
+            availability: "https://schema.org/InStock",
+            url: "https://codeshipacademy.com/register",
+          },
+        },
+      };
+    }),
+  };
+
   return (
     <div className="container-shell section-space">
-      <h1 className="font-display text-6xl text-navy">{fr ? "Programmes" : "Programs"}</h1>
-      <p className="mt-4 max-w-3xl text-slate-700">{fr ? "Parcours alignes au curriculum avec resultats clairs, attentes parentales et projets authentiques." : "Curriculum-aligned pathways with clear outcomes, family expectations, and authentic project showcases."}</p>
+      <h1 className="font-display text-6xl text-navy">{fr ? "Programmes de codage pour enfants" : "Kids Coding Programs"}</h1>
+      <p className="mt-4 max-w-3xl text-slate-700">{fr ? "Parcours par age alignes au curriculum, avec resultats clairs, projets authentiques et petits groupes inclusifs. Ages 4 a 14." : "Age-based, curriculum-aligned pathways with clear outcomes, authentic projects, and small inclusive classes. Ages 4–14."}</p>
       <div className="mt-10 space-y-8">
-        {programs.map((p) => (
-          <section key={p.name} className="rounded-2xl border border-slate-200 bg-white p-7 shadow-sm">
-            <h2 className="font-display text-4xl text-navy">{p.name} ({p.ages})</h2>
-            <p className="mt-2 text-slate-700"><strong>{fr ? "Technologies:" : "Technologies:"}</strong> {p.tech}</p>
-            <p className="mt-2 text-slate-700"><strong>{fr ? "Projets:" : "Projects:"}</strong> {p.projects}</p>
-            <div className="mt-5">
-              <EnrollButton program={p.level as ProgramLevel} label={fr ? "S'inscrire" : "Register Now"} />
-            </div>
-          </section>
-        ))}
+        {PROGRAM_ORDER.map((level) => {
+          const c = PROGRAM_LINKS[level];
+          return (
+            <section key={level} className="rounded-2xl border border-slate-200 bg-white p-7 shadow-sm">
+              <div className="flex flex-wrap items-baseline justify-between gap-3">
+                <h2 className="font-display text-4xl text-navy">{programName(level, fr)}</h2>
+                <p className="text-lg font-bold text-navy">{fr ? `${c.priceCad} $ CA` : `CAD $${c.priceCad}`}<span className="text-sm font-normal text-slate-600">{fr ? " / semestre" : " / semester"}</span></p>
+              </div>
+              <p className="mt-1 text-sm font-semibold uppercase tracking-wide text-supportBlue">{ageLabel(level, fr)}</p>
+              <p className="mt-3 text-slate-700"><strong>{fr ? "Technologies :" : "Technologies:"}</strong> {fr ? c.techFr : c.techEn}</p>
+              <p className="mt-2 text-slate-700"><strong>{fr ? "Projets :" : "Projects:"}</strong> {fr ? c.projectsFr : c.projectsEn}</p>
+              <div className="mt-5">
+                <EnrollButton program={level} label={fr ? "S'inscrire" : "Register Now"} />
+              </div>
+            </section>
+          );
+        })}
       </div>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(courseSchema) }} />
     </div>
   );
 }

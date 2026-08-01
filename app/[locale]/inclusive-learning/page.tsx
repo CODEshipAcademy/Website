@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
-import { metaByPage } from "@/lib/content";
+import { pageMetadata } from "@/lib/content";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
   const { locale } = await params;
-  return metaByPage[locale].inclusive;
+  return pageMetadata(locale, "inclusive", "/inclusive-learning");
 }
 
 export default async function InclusiveLearningPage({ params }: { params: Promise<{ locale: Locale }> }) {

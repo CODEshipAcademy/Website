@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
-import { metaByPage } from "@/lib/content";
+import { pageMetadata } from "@/lib/content";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
   const { locale } = await params;
-  return metaByPage[locale].about;
+  return pageMetadata(locale, "about", "/about");
 }
 
 export default async function AboutPage({ params }: { params: Promise<{ locale: Locale }> }) {

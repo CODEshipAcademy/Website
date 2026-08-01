@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { dictionary, type Locale } from "@/lib/i18n";
 import { usePathname } from "next/navigation";
+import { CookieConsent } from "@/components/cookie-consent";
 
 export function SiteShell({ locale, children }: { locale: Locale; children: React.ReactNode }) {
   const t = dictionary[locale];
@@ -51,10 +52,28 @@ export function SiteShell({ locale, children }: { locale: Locale; children: Reac
         {children}
       </motion.main>
       <footer className="border-t border-slate-200 bg-surface">
-        <div className="container-shell grid gap-10 py-14 md:grid-cols-3">
+        <div className="container-shell grid gap-10 py-14 md:grid-cols-4">
           <div>
             <p className="font-display text-3xl text-navy">{t.brand}</p>
             <p className="mt-3 text-sm text-slate-700">{t.tag}</p>
+            <Link href="/register" className="focus-ring mt-4 inline-block rounded-md bg-yellow px-4 py-2 text-sm font-bold text-navy">
+              {t.nav.register}
+            </Link>
+          </div>
+          <div>
+            <p className="text-sm font-bold uppercase tracking-wider text-navy">{locale === "fr" ? "Régions" : "Locations"}</p>
+            <div className="mt-4 space-y-2 text-sm">
+              {[
+                ["ontario", "Ontario"],
+                ["quebec", locale === "fr" ? "Québec" : "Quebec"],
+                ["british-columbia", locale === "fr" ? "Colombie-Britannique" : "British Columbia"],
+                ["alberta", "Alberta"]
+              ].map(([slug, label]) => (
+                <Link key={slug} href={`/${locale}/locations/${slug}`} className="focus-ring block rounded-md text-navy underline-offset-4 hover:underline">
+                  {label}
+                </Link>
+              ))}
+            </div>
           </div>
           <div>
             <p className="text-sm font-bold uppercase tracking-wider text-navy">Legal</p>
@@ -71,15 +90,7 @@ export function SiteShell({ locale, children }: { locale: Locale; children: Reac
           </div>
         </div>
       </footer>
-      <div className="fixed bottom-4 left-4 right-4 z-40 rounded-lg border border-slate-300 bg-white p-4 shadow-premium md:left-auto md:right-6 md:max-w-md">
-        <p className="text-xs text-slate-700">
-          This site uses cookies for essential operation and analytics. Consent preferences follow CASL, PIPEDA, and Quebec Law 25 requirements.
-        </p>
-        <div className="mt-3 flex gap-2">
-          <button className="focus-ring rounded-md bg-navy px-3 py-2 text-xs font-semibold text-white">Accept all</button>
-          <button className="focus-ring rounded-md border border-navy px-3 py-2 text-xs font-semibold text-navy">Preferences</button>
-        </div>
-      </div>
+      <CookieConsent locale={locale} />
     </div>
   );
 }

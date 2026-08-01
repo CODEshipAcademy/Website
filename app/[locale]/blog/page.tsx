@@ -1,11 +1,11 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
-import { metaByPage } from "@/lib/content";
+import { pageMetadata } from "@/lib/content";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
   const { locale } = await params;
-  return metaByPage[locale].blog;
+  return pageMetadata(locale, "blog", "/blog");
 }
 
 export default async function BlogPage({ params }: { params: Promise<{ locale: Locale }> }) {
