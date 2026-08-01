@@ -3,6 +3,6 @@ import type { MetadataRoute } from "next";
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: { userAgent: "*", allow: "/" },
-    sitemap: "https://codeshipacademy.ca/sitemap.xml"
+    sitemap: "https://codeshipacademy.com/sitemap.xml"
   };
 }

@@ -34,9 +34,17 @@ export function SiteShell({ locale, children }: { locale: Locale; children: Reac
               </Link>
             ))}
           </nav>
-          <Link href={switched} hrefLang={other} className="focus-ring rounded-md border border-navy px-3 py-2 text-xs font-semibold uppercase tracking-wide text-navy">
-            {other}
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/register"
+              className="focus-ring rounded-md bg-yellow px-4 py-2 text-sm font-bold text-navy"
+            >
+              {t.nav.register}
+            </Link>
+            <Link href={switched} hrefLang={other} className="focus-ring rounded-md border border-navy px-3 py-2 text-xs font-semibold uppercase tracking-wide text-navy">
+              {other}
+            </Link>
+          </div>
         </div>
       </header>
       <motion.main initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }}>

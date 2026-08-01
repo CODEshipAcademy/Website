@@ -18,7 +18,8 @@ export const dictionary = {
       franchise: "Franchising",
       about: "About",
       blog: "Blog",
-      contact: "Contact"
+      contact: "Contact",
+      register: "Register Now"
     }
   },
   fr: {
@@ -35,7 +36,8 @@ export const dictionary = {
       franchise: "Franchise",
       about: "À propos",
       blog: "Ressources",
-      contact: "Contact"
+      contact: "Contact",
+      register: "S'inscrire"
     }
   }
 };

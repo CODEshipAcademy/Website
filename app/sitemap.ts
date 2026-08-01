@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { locales } from "@/lib/i18n";
 
-const base = "https://codeshipacademy.ca";
+const base = "https://codeshipacademy.com";
 const paths = ["", "/programs", "/inclusive-learning", "/school-programs", "/franchising", "/about", "/contact", "/blog"];
 
 export default function sitemap(): MetadataRoute.Sitemap {
