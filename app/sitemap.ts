@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { locales } from "@/lib/i18n";
+import { postSlugs } from "@/lib/blog";
 
 const base = "https://codeshipacademy.com";
 const paths = ["", "/programs", "/inclusive-learning", "/school-programs", "/franchising", "/about", "/contact", "/blog"];
@@ -22,6 +23,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${base}/${locale}/locations/${province}`,
       changeFrequency: "monthly" as const,
       priority: 0.6,
+    })),
+    ...postSlugs.map((slug) => ({
+      url: `${base}/${locale}/blog/${slug}`,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+      alternates: {
+        languages: {
+          en: `${base}/en/blog/${slug}`,
+          fr: `${base}/fr/blog/${slug}`,
+        },
+      },
     })),
   ]);
 
