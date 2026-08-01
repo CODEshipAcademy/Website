@@ -16,5 +16,9 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api).*)"]
+  // `register` is intentionally excluded from locale redirects: the register and
+  // post-payment success pages live at /register and /register/success
+  // (non-localized) so Stripe Payment Links and ad campaigns can point at single
+  // stable URLs.
+  matcher: ["/((?!api|register).*)"]
 };

@@ -6,7 +6,7 @@ const bebas = Bebas_Neue({ subsets: ["latin"], weight: "400", variable: "--font-
 const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-montserrat" });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://codeshipacademy.ca"),
+  metadataBase: new URL("https://codeshipacademy.com"),
   title: "CODEship Academy",
   description: "Canada's Inclusive Future Skills Academy for Children.",
   openGraph: {

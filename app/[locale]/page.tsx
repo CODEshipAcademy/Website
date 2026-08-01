@@ -3,6 +3,8 @@ import Link from "next/link";
 import { dictionary, type Locale } from "@/lib/i18n";
 import { metaByPage } from "@/lib/content";
 import { HomeExperience } from "@/components/home-experience";
+import { EnrollButton } from "@/components/EnrollButton";
+import type { ProgramLevel } from "@/lib/payment-links";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -37,10 +39,25 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
       </section>
       <section className="section-space">
         <div className="container-shell grid gap-6 md:grid-cols-4">
-          {(fr ? ["Explorateurs 6-7", "Batisseurs 8-9", "Developpeurs 10-12", "Ingenieurs 13-16"] : ["Explorers 6-7", "Builders 8-9", "Developers 10-12", "Engineers 13-16"]).map((p) => (
-            <article key={p} className="rounded-xl border border-slate-200 p-5">
-              <h2 className="font-display text-3xl text-navy">{p}</h2>
+          {(fr
+            ? [
+                { level: "explorers", label: "Explorateurs 6-7" },
+                { level: "builders", label: "Batisseurs 8-9" },
+                { level: "developers", label: "Developpeurs 10-12" },
+                { level: "engineers", label: "Ingenieurs 13-16" }
+              ]
+            : [
+                { level: "explorers", label: "Explorers 6-7" },
+                { level: "builders", label: "Builders 8-9" },
+                { level: "developers", label: "Developers 10-12" },
+                { level: "engineers", label: "Engineers 13-16" }
+              ]).map((p) => (
+            <article key={p.label} className="flex flex-col rounded-xl border border-slate-200 p-5">
+              <h2 className="font-display text-3xl text-navy">{p.label}</h2>
               <p className="mt-2 text-sm text-slate-700">{fr ? "Parcours interactif avec resultats, projets reels et visibilite parentale." : "Interactive pathway with outcomes, real projects, and family progress visibility."}</p>
+              <div className="mt-4">
+                <EnrollButton program={p.level as ProgramLevel} label={fr ? "S'inscrire" : "Register Now"} />
+              </div>
             </article>
           ))}
         </div>

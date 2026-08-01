@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
 import { metaByPage } from "@/lib/content";
+import { EnrollButton } from "@/components/EnrollButton";
+import type { ProgramLevel } from "@/lib/payment-links";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -12,16 +14,16 @@ export default async function ProgramsPage({ params }: { params: Promise<{ local
   const fr = locale === "fr";
   const programs = fr
     ? [
-        { name: "Explorateurs", ages: "6-7", tech: "Scratch, litteratie numerique, collaboration", projects: "Histoires interactives et mini-jeux" },
-        { name: "Batisseurs", ages: "8-9", tech: "HTML, CSS, resolution de problemes, travail d'equipe", projects: "Sites web et defis de classe" },
-        { name: "Developpeurs", ages: "10-12", tech: "JavaScript, Python, bases de l'IA", projects: "Applications, robots logiciels, narration de donnees" },
-        { name: "Ingenieurs", ages: "13-16", tech: "JS/Python avance, dev app, conception produit", projects: "Solutions d'impact communautaire" }
+        { level: "explorers", name: "Explorateurs", ages: "6-7", tech: "Scratch, litteratie numerique, collaboration", projects: "Histoires interactives et mini-jeux" },
+        { level: "builders", name: "Batisseurs", ages: "8-9", tech: "HTML, CSS, resolution de problemes, travail d'equipe", projects: "Sites web et defis de classe" },
+        { level: "developers", name: "Developpeurs", ages: "10-12", tech: "JavaScript, Python, bases de l'IA", projects: "Applications, robots logiciels, narration de donnees" },
+        { level: "engineers", name: "Ingenieurs", ages: "13-16", tech: "JS/Python avance, dev app, conception produit", projects: "Solutions d'impact communautaire" }
       ]
     : [
-        { name: "Explorers", ages: "6-7", tech: "Scratch, digital literacy, collaboration", projects: "Interactive stories and simple games" },
-        { name: "Builders", ages: "8-9", tech: "HTML, CSS, problem-solving, teamwork", projects: "Web pages and classroom challenge sites" },
-        { name: "Developers", ages: "10-12", tech: "JavaScript, Python, AI learning foundations", projects: "Apps, bots, and data storytelling" },
-        { name: "Engineers", ages: "13-16", tech: "Advanced JS/Python, app development, product design", projects: "Community impact solutions" }
+        { level: "explorers", name: "Explorers", ages: "6-7", tech: "Scratch, digital literacy, collaboration", projects: "Interactive stories and simple games" },
+        { level: "builders", name: "Builders", ages: "8-9", tech: "HTML, CSS, problem-solving, teamwork", projects: "Web pages and classroom challenge sites" },
+        { level: "developers", name: "Developers", ages: "10-12", tech: "JavaScript, Python, AI learning foundations", projects: "Apps, bots, and data storytelling" },
+        { level: "engineers", name: "Engineers", ages: "13-16", tech: "Advanced JS/Python, app development, product design", projects: "Community impact solutions" }
       ];
   return (
     <div className="container-shell section-space">
@@ -33,6 +35,9 @@ export default async function ProgramsPage({ params }: { params: Promise<{ local
             <h2 className="font-display text-4xl text-navy">{p.name} ({p.ages})</h2>
             <p className="mt-2 text-slate-700"><strong>{fr ? "Technologies:" : "Technologies:"}</strong> {p.tech}</p>
             <p className="mt-2 text-slate-700"><strong>{fr ? "Projets:" : "Projects:"}</strong> {p.projects}</p>
+            <div className="mt-5">
+              <EnrollButton program={p.level as ProgramLevel} label={fr ? "S'inscrire" : "Register Now"} />
+            </div>
           </section>
         ))}
       </div>
