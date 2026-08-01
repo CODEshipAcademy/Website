@@ -2,12 +2,11 @@
 
 import { useEffect, useState } from "react";
 import type { Locale } from "@/lib/i18n";
-
-const STORAGE_KEY = "codeship-cookie-consent";
+import { type ConsentValue, getConsent, setConsent } from "@/lib/consent";
 
 /**
  * CASL / PIPEDA / Quebec Law 25-aware consent banner. Persists the visitor's
- * choice in localStorage so it doesn't reappear on every page, and stays hidden
+ * choice and broadcasts it so analytics only load after opt-in. Stays hidden
  * until we know a choice hasn't been made (avoids a flash for returning users).
  */
 export function CookieConsent({ locale }: { locale: Locale }) {
@@ -15,19 +14,11 @@ export function CookieConsent({ locale }: { locale: Locale }) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    try {
-      if (!localStorage.getItem(STORAGE_KEY)) setVisible(true);
-    } catch {
-      setVisible(true);
-    }
+    if (!getConsent()) setVisible(true);
   }, []);
 
-  function choose(value: "all" | "essential") {
-    try {
-      localStorage.setItem(STORAGE_KEY, value);
-    } catch {
-      /* storage unavailable — dismiss for this session anyway */
-    }
+  function choose(value: ConsentValue) {
+    setConsent(value);
     setVisible(false);
   }
 
