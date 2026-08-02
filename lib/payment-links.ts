@@ -15,6 +15,10 @@ export interface ProgramConfig {
   techFr: string;
   projectsEn: string;
   projectsFr: string;
+  /** One-line pitch for the per-program registration page (English). */
+  summary: string;
+  /** Learning outcomes shown on the per-program registration page (English). */
+  outcomes: string[];
   url: string;
 }
 
@@ -32,6 +36,14 @@ export const PROGRAM_LINKS: Record<ProgramLevel, ProgramConfig> = {
     techFr: "Scratch Jr, littératie numérique, résolution créative",
     projectsEn: "Interactive stories and simple games",
     projectsFr: "Histoires interactives et mini-jeux",
+    summary:
+      "A playful first step into coding, where young learners build confidence with technology through stories, games, and creative challenges.",
+    outcomes: [
+      "Understand core coding ideas like sequencing and logic",
+      "Build early problem-solving and computational thinking",
+      "Grow confidence and independence with technology",
+      "Create and share a first interactive project",
+    ],
     url: "https://buy.stripe.com/00wbIV4Abdo1dbz7TKdAk09",
   },
   builders: {
@@ -47,6 +59,14 @@ export const PROGRAM_LINKS: Record<ProgramLevel, ProgramConfig> = {
     techFr: "Scratch, HTML, CSS, résolution de problèmes, travail d'équipe",
     projectsEn: "Web pages and classroom challenge sites",
     projectsFr: "Sites web et défis de classe",
+    summary:
+      "Learners deepen their coding skills and start building for the web, turning their own ideas into working pages and games.",
+    outcomes: [
+      "Build fluency in Scratch and the basics of HTML & CSS",
+      "Plan, prototype, and finish a real digital project",
+      "Debug independently and iterate on their work",
+      "Collaborate with peers on team challenges",
+    ],
     url: "https://buy.stripe.com/7sY8wJ6Ij6ZD6Nb7TKdAk0b",
   },
   developers: {
@@ -62,6 +82,14 @@ export const PROGRAM_LINKS: Record<ProgramLevel, ProgramConfig> = {
     techFr: "JavaScript, Python, bases de l'IA",
     projectsEn: "Apps, bots, and data storytelling",
     projectsFr: "Applications, robots logiciels, narration de données",
+    summary:
+      "The move into real programming languages — learners write JavaScript and Python and get their first hands-on look at how AI works.",
+    outcomes: [
+      "Write real code in JavaScript and Python",
+      "Build interactive apps and simple bots",
+      "Understand the foundations of AI and how data drives it",
+      "Present and explain their own technical projects",
+    ],
     url: "https://buy.stripe.com/4gM4gtc2D2JnefD0ridAk0a",
   },
   engineers: {
@@ -77,6 +105,14 @@ export const PROGRAM_LINKS: Record<ProgramLevel, ProgramConfig> = {
     techFr: "JS/Python avancé, développement d'apps, conception produit",
     projectsEn: "Community impact solutions",
     projectsFr: "Solutions d'impact communautaire",
+    summary:
+      "Advanced building for teens — full applications, product design, and AI, aimed at real projects and post-secondary readiness.",
+    outcomes: [
+      "Work across multiple languages and modern frameworks",
+      "Design and ship a more sophisticated application",
+      "Apply AI/ML concepts to a project that matters to them",
+      "Lead a build and explore tech career pathways",
+    ],
     url: "https://buy.stripe.com/14AfZbc2D1Fjc7vfmcdAk08",
   },
 };

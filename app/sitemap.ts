@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { locales } from "@/lib/i18n";
 import { postSlugs } from "@/lib/blog";
+import { PROGRAM_ORDER } from "@/lib/payment-links";
 
 const base = "https://codeshipacademy.com";
 const paths = ["", "/programs", "/inclusive-learning", "/school-programs", "/franchising", "/about", "/contact", "/blog"];
@@ -37,13 +38,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
   ]);
 
-  // Non-localized transactional page — the primary conversion URL.
+  // Non-localized transactional pages — the primary conversion URLs.
   return [
     {
       url: `${base}/register`,
       changeFrequency: "weekly" as const,
       priority: 0.9,
     },
+    ...PROGRAM_ORDER.map((program) => ({
+      url: `${base}/register/${program}`,
+      changeFrequency: "weekly" as const,
+      priority: 0.9,
+    })),
     ...localized,
   ];
 }

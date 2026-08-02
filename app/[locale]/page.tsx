@@ -3,7 +3,6 @@ import Link from "next/link";
 import { dictionary, type Locale } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/content";
 import { HomeExperience } from "@/components/home-experience";
-import { EnrollButton } from "@/components/EnrollButton";
 import { ScrollRegisterPopup } from "@/components/scroll-register-popup";
 import { PROGRAM_LINKS, PROGRAM_ORDER, programName, ageLabel } from "@/lib/payment-links";
 import { getVisitorGeo } from "@/lib/geo";
@@ -79,9 +78,9 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
                 <h3 className="mt-1 font-display text-3xl text-navy">{programName(level, fr)}</h3>
                 <p className="mt-2 flex-1 text-sm text-slate-700">{fr ? PROGRAM_LINKS[level].techFr : PROGRAM_LINKS[level].techEn}</p>
                 <p className="mt-3 text-sm font-semibold text-navy">{fr ? `${PROGRAM_LINKS[level].priceCad} $ CA / semestre` : `CAD $${PROGRAM_LINKS[level].priceCad} / semester`}</p>
-                <div className="mt-4">
-                  <EnrollButton program={level} label={fr ? "S'inscrire" : "Register Now"} />
-                </div>
+                <Link href={`/register/${level}`} className="focus-ring mt-4 inline-block rounded-md bg-yellow px-4 py-2 text-sm font-bold text-navy">
+                  {fr ? "Détails et inscription →" : "Details & register →"}
+                </Link>
               </article>
             ))}
           </div>
