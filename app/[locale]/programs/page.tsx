@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import type { Locale } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/content";
-import { EnrollButton } from "@/components/EnrollButton";
 import {
   PROGRAM_LINKS,
   PROGRAM_ORDER,
@@ -65,7 +65,9 @@ export default async function ProgramsPage({ params }: { params: Promise<{ local
               <p className="mt-3 text-slate-700"><strong>{fr ? "Technologies :" : "Technologies:"}</strong> {fr ? c.techFr : c.techEn}</p>
               <p className="mt-2 text-slate-700"><strong>{fr ? "Projets :" : "Projects:"}</strong> {fr ? c.projectsFr : c.projectsEn}</p>
               <div className="mt-5">
-                <EnrollButton program={level} label={fr ? "S'inscrire" : "Register Now"} />
+                <Link href={`/register/${level}`} className="focus-ring inline-block rounded-md bg-yellow px-6 py-3 text-sm font-bold text-navy">
+                  {fr ? "Détails et inscription →" : "Details & register →"}
+                </Link>
               </div>
             </section>
           );

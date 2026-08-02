@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteShell } from "@/components/site-shell";
 import { PROGRAM_LINKS, PROGRAM_ORDER, ageLabel } from "@/lib/payment-links";
-import { EnrollButton } from "@/components/EnrollButton";
 
 export const metadata: Metadata = {
   title: "Register for Kids Coding Classes | CODEship Academy",
@@ -90,7 +89,22 @@ export default function RegisterPage() {
                     <span style={{ fontSize: 14, fontWeight: 400, color: "#9AA5B1" }}> / semester</span>
                   </div>
                 </div>
-                <EnrollButton program={key} />
+                <Link
+                  href={`/register/${key}`}
+                  style={{
+                    display: "inline-block",
+                    padding: "14px 22px",
+                    borderRadius: 10,
+                    background: "#FFD740",
+                    color: "#2E3246",
+                    fontWeight: 700,
+                    fontSize: 15,
+                    textDecoration: "none",
+                    textAlign: "center",
+                  }}
+                >
+                  See details &amp; register →
+                </Link>
               </div>
             );
           })}
