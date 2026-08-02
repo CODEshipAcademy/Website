@@ -1,13 +1,13 @@
 # CODEship Academy Website
 
-Premium, bilingual (`en`/`fr`), accessibility-first Next.js website scaffold for CODEship Academy.
+Premium, bilingual (`en`/`fr`), accessibility-first Next.js website for CODEship Academy.
 
 ## Stack
 - Next.js App Router
 - Tailwind CSS
 - Framer Motion
-- Supabase client helper (`lib/supabase.ts`)
-- Headless CMS adapter placeholder (`lib/cms.ts`)
+- Stripe Payment Links for registration (no server-side Stripe SDK in the build)
+- Database-free inquiry delivery (email or webhook)
 - Cloudflare Pages deployment-ready
 
 ## Run
@@ -17,24 +17,43 @@ npm run dev
 ```
 
 ## Environment
-Create `.env.local`:
+No database is required. Create `.env.local` and set the variables you need.
+
+### Inquiry forms (Contact / School / Franchise)
+Submissions are delivered by whichever channel is configured, in this order:
+
 ```bash
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
-SUPABASE_SERVICE_ROLE_KEY=
+# Option 1 — email via Resend (recommended)
+RESEND_API_KEY=
+INQUIRY_TO_EMAIL=leads@codeshipacademy.com          # where inquiries are sent
+INQUIRY_FROM_EMAIL="CODEship Academy <hello@codeshipacademy.com>"  # a Resend-verified sender
+
+# Option 2 — generic webhook (Zapier / Make / Slack / Google Apps Script)
+INQUIRY_WEBHOOK_URL=
+
+# Shown to visitors if delivery isn't configured yet, so no lead is lost
+NEXT_PUBLIC_CONTACT_EMAIL=hello@codeshipacademy.com
+```
+
+If neither Resend nor a webhook is set, the form returns a friendly message
+asking the visitor to email `NEXT_PUBLIC_CONTACT_EMAIL` directly.
+
+### Analytics (optional, consent-gated)
+Loaded only after the visitor accepts analytics cookies.
+
+```bash
+NEXT_PUBLIC_FB_PIXEL_ID=
+NEXT_PUBLIC_GA_ID=
 ```
 
 ## Cloudflare Pages
-Build command: `npm run build`  
-Output: `.next` (use Next.js framework preset on Cloudflare Pages)
+Build command: `npm run build`
+Output: `.next` (use the Next.js framework preset on Cloudflare Pages)
 
 ## Included
-- Required marketing pages
-- Legal/compliance pages
-- Bilingual route structure
-- Dynamic location SEO pages
-- Structured data examples (Organization, FAQ, Event)
+- Required marketing pages + a real bilingual blog
+- Legal/compliance pages and consent-gated analytics
+- Bilingual route structure and dynamic location SEO pages
+- Structured data (Organization, Course/Offer, BlogPosting, Event)
 - Sitemap and robots
-
-## Supabase table
-Run `supabase/schema.sql` to create the `inquiries` table used by bilingual forms with consent and retention tagging.
+- Stripe-powered registration at `/register`
