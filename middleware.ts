@@ -20,5 +20,7 @@ export const config = {
   // post-payment success pages live at /register and /register/success
   // (non-localized) so Stripe Payment Links and ad campaigns can point at single
   // stable URLs.
-  matcher: ["/((?!api|register).*)"]
+  // `play` (the Developers Arcade games) is also non-localized: the games are
+  // full-screen apps with their own chrome.
+  matcher: ["/((?!api|register|play).*)"]
 };
