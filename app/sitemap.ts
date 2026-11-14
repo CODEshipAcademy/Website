@@ -50,6 +50,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly" as const,
       priority: 0.9,
     })),
+    // Developers Arcade — one coding game per semester.
+    ...["/play", "/play/rover-rescue", "/play/bot-trainer", "/play/app-studio"].map((path) => ({
+      url: `${base}${path}`,
+      changeFrequency: "monthly" as const,
+      priority: path === "/play" ? 0.7 : 0.6,
+    })),
     ...localized,
   ];
 }

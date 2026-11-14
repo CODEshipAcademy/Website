@@ -59,6 +59,9 @@ export function SiteShell({ locale, children }: { locale: Locale; children: Reac
             <Link href="/register" className="focus-ring mt-4 inline-block rounded-md bg-yellow px-4 py-2 text-sm font-bold text-navy">
               {t.nav.register}
             </Link>
+            <Link href="/play" className="focus-ring mt-3 block rounded-md text-sm font-semibold text-supportBlue underline-offset-4 hover:underline">
+              {locale === "fr" ? "🎮 Arcade des développeurs (jeux de codage, en anglais)" : "🎮 Developers Arcade — free coding games"}
+            </Link>
           </div>
           <div>
             <p className="text-sm font-bold uppercase tracking-wider text-navy">{locale === "fr" ? "Régions" : "Locations"}</p>
